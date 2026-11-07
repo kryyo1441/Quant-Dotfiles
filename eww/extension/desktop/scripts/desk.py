@@ -299,7 +299,7 @@ def cmd_weather():
     try:
         url = f"https://wttr.in/{WEATHER_LOC.replace(' ', '+')}?format=j1"
         d = json.loads(sh("curl", "-sf", "-m", "8", url))
-        c, a, today = d["current_condition"][0], d["nearest_area"][0], d["weather"][0]
+        c, today = d["current_condition"][0], d["weather"][0]
         astro = today["astronomy"][0]
         now = dt.datetime.now().time()
         rise = dt.datetime.strptime(astro["sunrise"], "%I:%M %p").time()
@@ -309,7 +309,7 @@ def cmd_weather():
             icon = icon[0] if rise <= now < sset else icon[1]
         out = {"ok": True, "icon": icon, "desc": c["weatherDesc"][0]["value"].strip().lower(),
                "temp": c["temp_C"], "feels": c["FeelsLikeC"], "hum": c["humidity"],
-               "hi": today["maxtempC"], "lo": today["mintempC"], "place": a["areaName"][0]["value"]}
+               "hi": today["maxtempC"], "lo": today["mintempC"]}
         cache.write_text(json.dumps(out))
         return out
     except (ValueError, KeyError, IndexError, OSError):
@@ -317,7 +317,7 @@ def cmd_weather():
             return json.loads(cache.read_text())
         except (OSError, ValueError):
             return {"ok": False, "icon": "\U000f0590", "desc": "weather unavailable", "temp": "--",
-                    "feels": "--", "hum": "--", "hi": "--", "lo": "--", "place": ""}
+                    "feels": "--", "hum": "--", "hi": "--", "lo": "--"}
 
 
 # --- ASCII art: night sky over a cloud bank, like the wallpaper ---------------

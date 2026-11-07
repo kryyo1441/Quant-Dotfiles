@@ -16,7 +16,7 @@
 (defpoll d_gpu    :interval "10s" :initial "?" "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py gpu")
 (defpoll d_up     :interval "60s" :initial "" "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py uptime")
 (defpoll d_todo   :interval "5s"  :initial '{"exists":false,"items":[],"done":0,"more":0}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py todo")
-(defpoll d_weather :interval "15m" :initial '{"ok":false,"icon":"","desc":"","temp":"--","feels":"--","hi":"--","lo":"--","place":""}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py weather")
+(defpoll d_weather :interval "15m" :initial '{"ok":false,"icon":"","desc":"","temp":"--","feels":"--","hi":"--","lo":"--"}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py weather")
 (defpoll d_quote  :interval "30s"  :initial '{"lines":[],"a":""}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py quote")
 (defpoll d_pomo   :interval "1s"  :initial '{"phase":"work","clock":"25:00","pct":0,"running":false,"count":0}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py pomo")
 (deflisten d_art  :initial "[]" "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py art")
@@ -58,7 +58,7 @@
     (label :class "dk-sub" :xalign 0
            :text "week ${formattime(EWW_TIME, '%V')} · day ${formattime(EWW_TIME, '%j')} · up ${d_up}")
     (label :class "dk-sub" :xalign 0 :limit-width 44
-           :text {d_weather.ok ? "${d_weather.desc} · feels ${d_weather.feels}° · ${d_weather.lo}–${d_weather.hi}° · ${d_weather.place}" : "weather unavailable (offline?)"})))
+           :text {d_weather.ok ? "${d_weather.desc} · feels ${d_weather.feels}° · ${d_weather.lo}–${d_weather.hi}°" : "weather unavailable (offline?)"})))
 
 (defwidget sys-card []
   (box :class "dk-card" :orientation "v" :space-evenly false :spacing 4
