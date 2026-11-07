@@ -30,7 +30,12 @@
   "hide-on-clear": false,
   "hide-on-action": true,
   "script-fail-notify": true,
-  "scripts": {},
+  "scripts": {
+    "sound": {
+      "exec": "~/dotfiles/Quant-Dotfiles/swaync/notify-sound.sh",
+      "app-name": ".*"
+    }
+  },
   "notification-visibility": {
     "example-name": {
       "state": "muted",
@@ -67,13 +72,13 @@
     "buttons-grid": {
       "actions": [
         {
-          "label": "󰂚",
+          "label": "\udb80\udc9a",
           "type": "toggle",
           "active": true,
           "command": ""
         },
         {
-          "label": "󰂛",
+          "label": "\udb80\udc9b",
           "type": "toggle",
           "active": false,
           "command": ""
