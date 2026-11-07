@@ -1,0 +1,53 @@
+// ============================================================
+// Extension: Desktop — sysmon + visualizer styles
+// ============================================================
+
+// --- Colors (inlined, same palette as the other extensions) ---
+$bg: rgba(26, 26, 38, 0.55);
+$fg: #d5c89a;
+$fg-50: rgba(213, 200, 154, 0.5);
+$accent: #89b4fa;
+$border: #474540;
+$bar-bg: #555555;
+$font-family: "JetBrainsMono Nerd Font";
+$border-radius: 5px;
+
+.dk-card {
+  background: $bg;
+  border: 0.5px solid $border;
+  border-radius: $border-radius;
+  padding: 14px 18px;
+  font-family: $font-family;
+  color: $fg;
+}
+
+.dk-ring {
+  background: rgba(85, 85, 85, 0.45);
+  color: $accent;
+  min-width: 58px;
+  min-height: 58px;
+}
+
+.dk-ring-icon { font-size: 16px; color: $fg; }
+.dk-stat-text { font-size: 11px; font-weight: 600; }
+
+.dk-viz {
+  font-size: 22px;
+  color: $accent;
+  letter-spacing: 1px;
+}
+
+.dk-title { font-size: 12px; font-weight: 600; }
+.dk-artist { font-size: 10px; color: $fg-50; }
+
+.dk-media.standby {
+  .dk-viz { color: $fg-50; }
+  .dk-title { color: $fg-50; font-weight: 400; }
+}
+
+.dk-controls { margin-top: 2px; }
+.dk-btn { padding: 2px 6px; border-radius: $border-radius; }
+.dk-btn:hover { background: rgba(85, 85, 85, 0.45); }
+.dk-btn label { font-size: 16px; color: $fg; }
+.dk-btn:hover label { color: $accent; }
+.dk-btn-main label { font-size: 20px; color: $accent; }

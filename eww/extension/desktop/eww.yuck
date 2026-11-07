@@ -1,0 +1,61 @@
+; ============================================================
+; Extension: Desktop — always-on widgets (sysmon + visualizer/now playing)
+; Layer "bottom": above the wallpaper, below windows.
+; ============================================================
+
+(deflisten viz :initial "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁"
+  "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/visualizer.sh")
+
+(deflisten media :initial '{"status":"","artist":"","title":"","player":""}'
+  "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/media.sh")
+
+; --- Sysmon ---
+(defwidget stat-ring [value icon text]
+  (box :class "dk-stat" :orientation "v" :space-evenly false :spacing 6
+    (circular-progress :class "dk-ring" :value value :thickness 5 :start-at 75 :width 58 :height 58
+      (label :class "dk-ring-icon" :text icon))
+    (label :class "dk-stat-text" :text text)))
+
+(defwidget sysmon []
+  (box :class "dk-card" :orientation "h" :spacing 18 :space-evenly true
+    (stat-ring :icon "󰻠" :value {EWW_CPU.avg}
+               :text "${round(EWW_CPU.avg, 0)}%")
+    (stat-ring :icon "󰍛" :value {EWW_RAM.used_mem_perc}
+               :text "${round(EWW_RAM.used_mem / 1073741824, 1)}G")
+    (stat-ring :icon "󰔏" :value {EWW_TEMPS.K10TEMP_TCTL ?: 0}
+               :text "${round(EWW_TEMPS.K10TEMP_TCTL ?: 0, 0)}°C")))
+
+(defwindow desktop-sysmon
+  :monitor 0
+  :geometry (geometry :x "24px" :y "60px" :width "300px" :height "1px" :anchor "top left")
+  :stacking "bottom"
+  :exclusive false
+  :focusable false
+  :namespace "desktop-sysmon"
+  (sysmon))
+
+; --- Visualizer + now playing ---
+(defwidget nowplaying []
+  (box :class "dk-card dk-media ${media.status == 'Playing' ? 'playing' : 'standby'}"
+       :orientation "v" :space-evenly false :spacing 6
+    (label :class "dk-viz" :text {media.status == "Playing" ? viz : "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁"})
+    (label :class "dk-title" :limit-width 48
+           :text {media.title == "" ? "nothing playing" : media.title})
+    (label :class "dk-artist" :limit-width 48
+           :visible {media.artist != "" || media.status == "Paused"}
+           :text {media.status == "Paused" ? "paused · ${media.artist}" : media.artist})
+    (box :class "dk-controls" :halign "center" :spacing 14 :space-evenly false
+         :visible {media.player != ""}
+      (button :class "dk-btn" :onclick "playerctl previous" "󰒮")
+      (button :class "dk-btn dk-btn-main" :onclick "playerctl play-pause"
+              {media.status == "Playing" ? "󰏤" : "󰐊"})
+      (button :class "dk-btn" :onclick "playerctl next" "󰒭"))))
+
+(defwindow desktop-media
+  :monitor 0
+  :geometry (geometry :x "0px" :y "40px" :width "420px" :height "1px" :anchor "bottom center")
+  :stacking "bottom"
+  :exclusive false
+  :focusable false
+  :namespace "desktop-media"
+  (nowplaying))

@@ -7,3 +7,4 @@
 (include "./extension/osd/eww.yuck")
 (include "./extension/mixer/eww.yuck")
 (include "./extension/mic/eww.yuck")
+(include "./extension/desktop/eww.yuck")
