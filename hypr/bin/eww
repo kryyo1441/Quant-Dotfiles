@@ -1,0 +1,3 @@
+#!/bin/sh
+# Quant session shim: point eww at the repo config (own daemon socket)
+exec /usr/bin/eww -c "$HOME/dotfiles/Quant-Dotfiles/eww" "$@"

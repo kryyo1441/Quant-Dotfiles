@@ -1,0 +1,7 @@
+#!/bin/sh
+# "Hyprland (Quant)" session entry point. Isolated: ~/.config/{eww,waybar,rofi,kitty} untouched.
+Q="$HOME/dotfiles/Quant-Dotfiles"
+export PATH="$HOME/.config/hypr-quant/bin:$PATH"
+export KITTY_CONFIG_DIRECTORY="$Q/kitty"
+export STARSHIP_CONFIG="$Q/starship.toml"
+exec /usr/bin/start-hyprland -- --config "$HOME/.config/hypr-quant/hyprland.lua"

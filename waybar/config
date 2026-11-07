@@ -70,14 +70,12 @@
         "format": "  {title}",
         "format-paused": "  {title}",
         "max-length": 30,
-        "tooltip": false,
-        "on-click": "eww -c ~/.config/eww-media open --toggle media_popup"
+        "tooltip": false
     },
 
     "clock": {
         "format": "󰥔 {:%H:%M}",
-        "tooltip": false,
-        "on-click": "eww open --toggle calendar_popup"
+        "tooltip": false
     },
 
     "custom/notification": {
@@ -100,7 +98,7 @@
     "wireplumber": {
         "format": "󰍬 {volume}%",
         "tooltip": false,
-        "on-click": "/home/xuanz/.config/eww/extension/mic/scripts/toggle-mic.sh",
+        "on-click": "~/dotfiles/Quant-Dotfiles/eww/extension/mic/scripts/toggle-mic.sh",
         "on-click-middle": "",
         "on-click-right": ""
     },
@@ -109,7 +107,7 @@
         "format": "󰕾 {volume}%",
         "format-muted": "󰝟 muted",
         "tooltip": false,
-        "on-click": "/home/xuanz/.config/eww/extension/mixer/scripts/toggle-window.sh",
+        "on-click": "~/dotfiles/Quant-Dotfiles/eww/extension/mixer/scripts/toggle-window.sh",
         "on-click-middle": "",
         "on-click-right": ""
     },
@@ -141,6 +139,7 @@
         "modules": [
             "cpu",
             "memory",
+            "temperature",
             "disk"
         ]
     },
@@ -153,10 +152,17 @@
         "format": "󰍛 {}%"
     },
 
+    "temperature": {
+        "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
+        "input-filename": "temp1_input",
+        "critical-threshold": 85,
+        "format": " {temperatureC}°C",
+        "tooltip": false
+    },
+
     "disk": {
         "path": "/",
-        "format": "󰋊 {percentage_used}%",
-        "on-click": "~/.config/eww/scripts/disk-popup.sh toggle"
+        "format": "󰋊 {percentage_used}%"
     },
 
     "group/power": {
@@ -176,7 +182,7 @@
     },
 
     "custom/power-mode": {
-        "exec": "~/.config/eww/extension/quick-settings/scripts/power-mode.sh icon",
+        "exec": "powerprofilesctl get 2>/dev/null || echo n/a",
         "format": "{}",
         "tooltip": false,
         "interval": 3,

@@ -18,7 +18,7 @@ hl.env("GTK_THEME", "Catppuccin-Mocha-Standard-Blue-Dark")
 hl.env("MOZ_ENABLE_WAYLAND", "1")
 
 -- DEFAULT APPS
-hl.env("BROWSER", "firefox")
+hl.env("BROWSER", "brave")
 hl.env("TERMINAL", "kitty")
 hl.env("TERMINAL_EXEC", "kitty")
 hl.env("FILE_MANAGER", "yazi")

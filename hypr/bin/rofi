@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/rofi -config "$HOME/dotfiles/Quant-Dotfiles/rofi/config.rasi" "$@"

@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/swaync -c "$HOME/dotfiles/Quant-Dotfiles/swaync/config.json" -s "$HOME/dotfiles/Quant-Dotfiles/swaync/style.css" "$@"

@@ -1,0 +1,8 @@
+#!/bin/sh
+# SUPER+M: read-only HANDOFF.md viewer, q closes. LESSSECURE blocks less's editor/shell escapes.
+f="$HOME/dotfiles/HANDOFF.md"
+export LESSSECURE=1 PAGER="less -R"
+if command -v glow >/dev/null; then cmd="glow -p $f"
+elif command -v bat >/dev/null; then cmd="bat --paging=always $f"
+else cmd="less $f"; fi
+exec kitty --class quant-handoff -e sh -c "$cmd"

@@ -2,28 +2,31 @@
 local mainMod = "SUPER"
 
 -- APPLICATIONS
-hl.bind("SUPER + Q", hl.dsp.exec_cmd("~/.config/eww/extension/quick-settings/scripts/toggle-window.sh"))
+hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("kitty"))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("rofi -show drun -theme ~/dotfiles/Quant-Dotfiles/rofi/config.rasi"))
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("~/.config/hypr-quant/bin/quant-handoff"))
+hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("~/dotfiles/Quant-Dotfiles/eww/extension/quick-settings/scripts/toggle-window.sh"))
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("kitty"))
 hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("nautilus"))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("code"))
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("kitty -e nvim"))
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("~/.config/hypr/scripts/clipboard-menu.sh"))
-hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("firefox"))
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("spotify"))
-hl.bind(mainMod .. " + space", hl.dsp.exec_cmd("rofi -show drun -theme ~/.config/rofi/config.rasi"))
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("~/.config/rofi/scripts/wallpaper-select.sh"))
+hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu | cliphist decode | wl-copy"))
+hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("brave"))
+hl.bind(mainMod .. " + space", hl.dsp.exec_cmd("rofi -show drun -theme ~/dotfiles/Quant-Dotfiles/rofi/config.rasi"))
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("~/dotfiles/Quant-Dotfiles/rofi/scripts/wallpaper-select.sh"))
 
 -- PANEL CONTROL
-hl.bind("SUPER + Menu", hl.dsp.exec_cmd("~/.config/eww/extension/quick-settings/scripts/toggle-swaync.sh"))
-hl.bind("CTRL + Menu", hl.dsp.exec_cmd("~/.config/eww/extension/quick-settings/scripts/toggle-window.sh"))
-hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("/home/xuanz/.config/waybar/scripts/reload.sh"))
+hl.bind("SUPER + Menu", hl.dsp.exec_cmd("~/dotfiles/Quant-Dotfiles/eww/extension/quick-settings/scripts/toggle-swaync.sh"))
+hl.bind("CTRL + Menu", hl.dsp.exec_cmd("~/dotfiles/Quant-Dotfiles/eww/extension/quick-settings/scripts/toggle-window.sh"))
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/dotfiles/Quant-Dotfiles/waybar/scripts/reload.sh"))
 
 -- WINDOW CONTROL
-hl.bind(mainMod .. " + BackSpace", hl.dsp.window.kill())
+hl.bind(mainMod .. " + Q", hl.dsp.window.close())
+hl.bind(mainMod .. " + BackSpace", hl.dsp.window.close())
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
-hl.bind(mainMod .. " + T", hl.dsp.window.float())
+hl.bind(mainMod .. " + SHIFT + T", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
+hl.bind(mainMod .. " + SHIFT + J", hl.dsp.layout("togglesplit"))
 
 -- MOVE FOCUS
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
@@ -59,18 +62,17 @@ hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- MEDIA CONTROL
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && ~/.config/hypr/scripts/osd-volume.sh"), { repeating = true, locked = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && ~/.config/hypr/scripts/osd-volume.sh"), { repeating = true, locked = true })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && ~/.config/hypr/scripts/osd-volume.sh"), { locked = true })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"), { repeating = true, locked = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { repeating = true, locked = true })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
 hl.bind(mainMod .. " + F3", hl.dsp.exec_cmd("sh -c 'eww active-windows | grep -q \"^mixer:\" && eww close mixer || (eww close mic-mixer; eww open mixer)'"))
 hl.bind(mainMod .. " + F4", hl.dsp.exec_cmd("sh -c 'eww active-windows | grep -q \"^mic-mixer:\" && eww close mic-mixer || (eww close mixer; eww open mic-mixer)'"))
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +10% && ~/.config/hypr/scripts/osd-brightness.sh"), { repeating = true, locked = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 10%- && ~/.config/hypr/scripts/osd-brightness.sh"), { repeating = true, locked = true })
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +10%"), { repeating = true, locked = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 10%-"), { repeating = true, locked = true })
 
 -- SCREENSHOT
-hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot-full.sh"))
-hl.bind(mainMod .. " + SHIFT + Print", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot-menu.sh"))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot-area.sh"))
+hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("grim - | wl-copy"))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"))
 
 -- SESSION CONTROL
 hl.bind(mainMod .. " + ALT + F10", hl.dsp.exit())

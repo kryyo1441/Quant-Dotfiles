@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/waybar -c "$HOME/dotfiles/Quant-Dotfiles/waybar/config" -s "$HOME/dotfiles/Quant-Dotfiles/waybar/style.css" "$@"

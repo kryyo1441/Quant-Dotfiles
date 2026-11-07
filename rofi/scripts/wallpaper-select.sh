@@ -2,7 +2,7 @@
 
 DIR="$HOME/Pictures/wallpapers"
 
-THEME="$HOME/.config/rofi/themes/wallpaper.rasi"
+THEME="$HOME/dotfiles/Quant-Dotfiles/rofi/themes/wallpaper.rasi"
 
 selected=$(find "$DIR" -type f \( \
     -iname "*.jpg" -o \
@@ -22,7 +22,7 @@ wallpaper=$(find "$DIR" -type f -name "$selected" -print -quit)
 
 [ -z "$wallpaper" ] && exit
 
-CONFIG="$HOME/.config/hypr/hyprpaper.conf"
+CONFIG="$HOME/.config/hypr-quant/hyprpaper.conf"
 
 MONITOR=$(hyprctl monitors | grep "Monitor" | awk '{print $2}' | head -1)
 [ -z "$MONITOR" ] && MONITOR=$(awk -F'=' '/^[[:space:]]*monitor[[:space:]]*=/ {gsub(/[[:space:]]/, "", $2); print $2; exit}' "$CONFIG")

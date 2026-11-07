@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Hyprland (Quant)
+Comment=Hyprland with the Quant-Dotfiles Lua config
+Exec=/home/kryyo1441/.config/hypr-quant/bin/start-hyprland-quant
+Type=Application
+DesktopNames=Hyprland

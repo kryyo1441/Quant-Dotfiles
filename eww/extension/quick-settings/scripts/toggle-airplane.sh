@@ -8,7 +8,7 @@
 
 state=$(nmcli networking 2>/dev/null)
 if [ "$state" = "enabled" ]; then
-  /usr/bin/eww update qs_airplane="on" 2>/dev/null
+  eww update qs_airplane="on" 2>/dev/null
   (
     nmcli networking off 2>/dev/null
     # bluetooth ikut mati + rfkill block — biar gak bisa dinyalain
@@ -17,7 +17,7 @@ if [ "$state" = "enabled" ]; then
     rfkill block bluetooth 2>/dev/null
   ) &
 else
-  /usr/bin/eww update qs_airplane="off" 2>/dev/null
+  eww update qs_airplane="off" 2>/dev/null
   (
     # buka block BT duluan — independen dari NM, jangan ikut antre di
     # belakang networking on yang bisa blocking 10+ detik

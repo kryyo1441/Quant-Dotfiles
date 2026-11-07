@@ -37,4 +37,4 @@ else
 fi
 
 echo "$next" > "$STATE"
-/usr/bin/eww update qs_nightlight="$next" 2>/dev/null
+eww update qs_nightlight="$next" 2>/dev/null

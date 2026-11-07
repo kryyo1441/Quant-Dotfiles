@@ -2,11 +2,14 @@
 hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
     hl.exec_cmd("eww daemon")
+    hl.exec_cmd("hyprpaper --config ~/.config/hypr-quant/hyprpaper.conf")
+
+    -- session-wide daemons; skipped in nested test instances (QUANT_NESTED=1)
+    if os.getenv("QUANT_NESTED") then return end
     hl.exec_cmd("swaync")
-    hl.exec_cmd("hyprpaper --config ~/.config/hypr/hyprpaper.conf")
     hl.exec_cmd("nm-applet")
     hl.exec_cmd("blueman-applet")
-    hl.exec_cmd("~/.config/hypr/scripts/clipboard-watch.sh")
+    hl.exec_cmd("wl-paste --watch cliphist store")
     hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
     hl.exec_cmd("hypridle")
     hl.exec_cmd("udiskie")

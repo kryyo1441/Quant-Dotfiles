@@ -39,3 +39,18 @@ hl.window_rule({
     center = true,
     size = { 850, 500 },
 })
+
+-- HANDOFF VIEWER (SUPER + M)
+hl.window_rule({
+    match = { class = "^(quant-handoff)$" },
+    float = true,
+    center = true,
+    size = { 1100, 750 },
+})
+
+-- LAYER BLUR (namespaces from `hyprctl layers`)
+hl.layer_rule({
+    match = { namespace = "^(waybar|rofi|quick-settings|mixer|mic-mixer|osd|swaync-control-center|swaync-notification-window)$" },
+    blur = true,
+    ignore_alpha = 0.1,
+})

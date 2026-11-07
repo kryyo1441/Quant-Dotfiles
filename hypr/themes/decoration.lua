@@ -8,16 +8,20 @@ hl.config({
         layout = "dwindle",
     },
 
+    dwindle = {
+        preserve_split = true,
+    },
+
     decoration = {
         rounding = 5,
-        active_opacity = 1.0,
-        inactive_opacity = 0.99,
+        active_opacity = 0.95,
+        inactive_opacity = 0.90,
         fullscreen_opacity = 1.0,
 
         shadow = {
             enabled = true,
             range = 5,
-            render_power = 9,
+            render_power = 4,
         },
 
         blur = {
