@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Quant
+Comment=adw-gtk3-dark recoloured with the Quant palette
+
+[X-GNOME-Metatheme]
+GtkTheme=Quant

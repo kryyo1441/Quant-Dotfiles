@@ -1,0 +1,29 @@
+/* Quant GTK3 theme: adw-gtk3-dark (installed) with the rice palette on top.
+   GTK3 resolves @define-color by name, so redefining after the import recolours everything. */
+@import url("file:///usr/share/themes/adw-gtk3-dark/gtk-3.0/gtk.css");
+
+/* palette: bg #1a1a26 · surface #11111b · border #474540 · fg #d5c89a · accent #89b4fa */
+@define-color window_bg_color   rgba(26, 26, 38, 0.92);
+@define-color window_fg_color   #d5c89a;
+@define-color view_bg_color     rgba(17, 17, 27, 0.80);
+@define-color view_fg_color     #d5c89a;
+@define-color headerbar_bg_color       #1a1a26;
+@define-color headerbar_backdrop_color #1a1a26;
+@define-color headerbar_fg_color       #d5c89a;
+@define-color headerbar_border_color   #474540;
+@define-color sidebar_bg_color         rgba(26, 26, 38, 0.92);
+@define-color sidebar_backdrop_color   rgba(26, 26, 38, 0.92);
+@define-color sidebar_fg_color         #d5c89a;
+@define-color sidebar_border_color     #474540;
+@define-color card_bg_color     rgba(213, 200, 154, 0.05);
+@define-color card_fg_color     #d5c89a;
+@define-color popover_bg_color  #1a1a26;
+@define-color popover_fg_color  #d5c89a;
+@define-color dialog_bg_color   #1a1a26;
+@define-color dialog_fg_color   #d5c89a;
+@define-color accent_bg_color   #89b4fa;
+@define-color accent_fg_color   #11111b;
+@define-color accent_color      #89b4fa;
+@define-color borders           #474540;
+
+* { font-family: "JetBrainsMono Nerd Font"; }

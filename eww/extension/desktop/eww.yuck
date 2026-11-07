@@ -17,7 +17,7 @@
 (defpoll d_up     :interval "60s" :initial "" "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py uptime")
 (defpoll d_todo   :interval "5s"  :initial '{"exists":false,"items":[],"done":0,"more":0}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py todo")
 (defpoll d_weather :interval "15m" :initial '{"ok":false,"icon":"","desc":"","temp":"--","feels":"--","hi":"--","lo":"--","place":""}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py weather")
-(defpoll d_quote  :interval "30s"  :initial '{"q":"","a":""}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py quote")
+(defpoll d_quote  :interval "30s"  :initial '{"lines":[],"a":""}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py quote")
 (defpoll d_pomo   :interval "1s"  :initial '{"phase":"work","clock":"25:00","pct":0,"running":false,"count":0}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py pomo")
 (deflisten d_art  :initial "[]" "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py art")
 
@@ -112,7 +112,8 @@
       (label :class "dk-prompt-host" :text "arch")
       (label :class "dk-dim" :text " ~ ❯ ")
       (label :class "dk-cursor ${formattime(EWW_TIME, '%S') % 2 == 0 ? 'on' : ''}" :text "█"))
-    (label :class "dk-quote" :xalign 0 :wrap true :text "“${d_quote.q}”")
+    (box :orientation "v" :space-evenly false
+      (for l in {d_quote.lines} (label :class "dk-quote" :xalign 0 :text l)))
     (label :class "dk-quote-by" :xalign 0 :text "— ${d_quote.a}")))
 
 ; --- Right column ---------------------------------------------------------

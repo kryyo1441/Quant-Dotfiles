@@ -12,6 +12,7 @@ import os
 import random
 import subprocess
 import sys
+import textwrap
 import time
 from pathlib import Path
 
@@ -274,7 +275,8 @@ QUOTE_EVERY = 120   # seconds; each 2-minute slot picks a random quote, stable w
 def cmd_quote():
     slot = int(time.time() // QUOTE_EVERY)
     q, a = random.Random(slot).choice(QUOTES)
-    return {"q": q, "a": a}
+    # pre-wrapped: eww labels ellipsize long text instead of wrapping it reliably
+    return {"lines": textwrap.wrap(f"\u201c{q}\u201d", 50), "a": a}
 
 
 # --- Weather (wttr.in, cached; location from IP unless WEATHER_LOC is set) ----
