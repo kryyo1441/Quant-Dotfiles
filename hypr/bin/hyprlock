@@ -1,0 +1,3 @@
+#!/bin/sh
+# Quant shim: hyprlock with the repo config (other sessions keep ~/.config/hypr/hyprlock.conf)
+exec /usr/bin/hyprlock -c "$HOME/.config/hypr-quant/hyprlock.conf" "$@"

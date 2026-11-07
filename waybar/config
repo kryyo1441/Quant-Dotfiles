@@ -89,7 +89,8 @@
 
         "modules": [
             "wireplumber",
-            "pulseaudio"
+            "pulseaudio",
+            "backlight"
         ],
 
     },
@@ -109,6 +110,14 @@
         "on-click": "~/dotfiles/Quant-Dotfiles/eww/extension/mixer/scripts/toggle-window.sh",
         "on-click-middle": "",
         "on-click-right": ""
+    },
+
+    "backlight": {
+        "device": "amdgpu_bl1",
+        "format": "{icon} {percent}%",
+        "format-icons": ["󰃞", "󰃟", "󰃝", "󰃠"],
+        "scroll-step": 5,
+        "tooltip": false
     },
 
     "network": {

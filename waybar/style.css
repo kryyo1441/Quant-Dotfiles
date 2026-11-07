@@ -161,7 +161,8 @@ window#waybar {
 ========================= */
 
 #wireplumber,
-#pulseaudio {
+#pulseaudio,
+#backlight {
     background: alpha(@bg, 0.92);
     color: @fg;
     margin-top: 5px;
@@ -179,6 +180,10 @@ window#waybar {
 
 
 #pulseaudio {
+    margin: 5px 0;
+}
+
+#backlight {
     margin-left: 0;
     margin-right: 3px;
     padding-right: 16px;
@@ -189,7 +194,8 @@ window#waybar {
 
 
 #wireplumber:hover,
-#pulseaudio:hover {
+#pulseaudio:hover,
+#backlight:hover {
     background: @accent;
     color: @bg;
     border-radius: 5px;

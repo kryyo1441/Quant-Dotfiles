@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# One-line status strings for the Quant hyprlock labels. Never touches the network.
+case "$1" in
+battery)
+    b=/sys/class/power_supply/BAT1
+    [[ -r $b/capacity ]] || exit 0
+    c=$(<"$b/capacity") s=$(<"$b/status")
+    icons=(󰂎 󰁺 󰁻 󰁼 󰁽 󰁾 󰁿 󰂀 󰂁 󰂂 󰁹)
+    i=${icons[c / 10]}
+    [[ $s == Charging ]] && i=󰂄
+    [[ $s == Full || $(<"${b%/*}/ACAD/online") == 1 ]] && i=󰚥
+    p=$(powerprofilesctl get 2>/dev/null)
+    echo "$i $c%${p:+   󰓅 $p}"
+    ;;
+media)
+    t=$(playerctl metadata --format '{{status}}|{{title}}|{{artist}}' 2>/dev/null) || exit 0
+    IFS='|' read -r st title artist <<<"$t"
+    [[ -n $title ]] || exit 0
+    ic=󰏤; [[ $st == Playing ]] && ic=󰎆
+    s="$title${artist:+  ·  $artist}"
+    (( ${#s} > 48 )) && s="${s:0:47}…"
+    echo "$ic  $s"
+    ;;
+weather)
+    # cache written by the desktop widget (desk.py weather)
+    f=${XDG_RUNTIME_DIR:-/tmp}/quant-desk/weather.json
+    jq -er 'select(.ok) | "\(.icon)  \(.temp)°C  \(.desc)"' "$f" 2>/dev/null
+    ;;
+esac
