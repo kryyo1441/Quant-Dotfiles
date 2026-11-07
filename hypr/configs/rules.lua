@@ -50,7 +50,7 @@ hl.window_rule({
 
 -- LAYER BLUR (namespaces from `hyprctl layers`)
 hl.layer_rule({
-    match = { namespace = "^(waybar|rofi|quick-settings|desktop-sysmon|desktop-media|mixer|mic-mixer|osd|swaync-control-center|swaync-notification-window)$" },
+    match = { namespace = "^(waybar|rofi|quick-settings|desktop-.*|mixer|mic-mixer|osd|swaync-control-center|swaync-notification-window)$" },
     blur = true,
     ignore_alpha = 0.1,
 })

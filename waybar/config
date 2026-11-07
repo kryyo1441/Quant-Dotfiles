@@ -25,7 +25,6 @@
         "tray",
         "network",
         "group/audio",
-        "group/system",
         "group/power"
     ],
 
@@ -131,38 +130,6 @@
         "icon-size": 15,
         "spacing": 6,
         "show-passive-items": false
-    },
-
-    "group/system": {
-        "orientation": "horizontal",
-
-        "modules": [
-            "cpu",
-            "memory",
-            "temperature",
-            "disk"
-        ]
-    },
-
-    "cpu": {
-        "format": " {usage}%"
-    },
-
-    "memory": {
-        "format": "󰍛 {}%"
-    },
-
-    "temperature": {
-        "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
-        "input-filename": "temp1_input",
-        "critical-threshold": 85,
-        "format": " {temperatureC}°C",
-        "tooltip": false
-    },
-
-    "disk": {
-        "path": "/",
-        "format": "󰋊 {percentage_used}%"
     },
 
     "group/power": {

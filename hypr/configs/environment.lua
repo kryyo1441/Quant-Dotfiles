@@ -12,7 +12,7 @@ hl.env("CLUTTER_BACKEND", "wayland")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 
 -- THEME
-hl.env("GTK_THEME", "Catppuccin-Mocha-Standard-Blue-Dark")
+hl.env("GTK_THEME", "Quant")  -- gtk/Quant, symlinked into ~/.local/share/themes
 
 -- MOZILLA
 hl.env("MOZ_ENABLE_WAYLAND", "1")

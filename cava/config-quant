@@ -1,0 +1,30 @@
+; Quant terminal visualizer: `cava` inside the Quant session uses this (see ~/.bashrc).
+; Colours follow the rice: deep night blue -> accent #89b4fa -> moonlight -> gold fg #d5c89a.
+[general]
+framerate = 60
+bars = 0
+bar_width = 2
+bar_spacing = 1
+sleep_timer = 5
+
+[input]
+method = pipewire
+source = auto
+
+[output]
+method = noncurses
+orientation = bottom
+show_idle_bar_heads = 0
+
+[color]
+background = default
+gradient = 1
+gradient_color_1 = '#2a3557'
+gradient_color_2 = '#4a6aa8'
+gradient_color_3 = '#89b4fa'
+gradient_color_4 = '#b4befe'
+gradient_color_5 = '#d5c89a'
+
+[smoothing]
+monstercat = 1
+noise_reduction = 77

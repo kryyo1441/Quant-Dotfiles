@@ -7,13 +7,15 @@ hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("rofi -show drun -theme ~/dotfiles/Qu
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("~/.config/hypr-quant/bin/quant-handoff"))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("~/dotfiles/Quant-Dotfiles/eww/extension/quick-settings/scripts/toggle-window.sh"))
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("kitty"))
-hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("nautilus"))
+hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("thunar"))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("code"))
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("kitty -e nvim"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu | cliphist decode | wl-copy"))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("brave"))
 hl.bind(mainMod .. " + space", hl.dsp.exec_cmd("rofi -show drun -theme ~/dotfiles/Quant-Dotfiles/rofi/config.rasi"))
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("~/dotfiles/Quant-Dotfiles/rofi/scripts/wallpaper-select.sh"))
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("brave --profile-directory=Default --app-id=hnpfjngllnobngcgfapefoaidbinmjnm"))  -- WhatsApp Web PWA
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("kitty sh -c 'spotatui; exec bash'"))  -- shell stays after spotatui quits
+hl.bind(mainMod .. " + ALT + W", hl.dsp.exec_cmd("~/dotfiles/Quant-Dotfiles/rofi/scripts/wallpaper-select.sh"))
 
 -- PANEL CONTROL
 hl.bind("SUPER + Menu", hl.dsp.exec_cmd("~/dotfiles/Quant-Dotfiles/eww/extension/quick-settings/scripts/toggle-swaync.sh"))

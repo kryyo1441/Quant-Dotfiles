@@ -1,5 +1,5 @@
 // ============================================================
-// Extension: Desktop — sysmon + visualizer styles
+// Extension: Desktop — always-on widget styles
 // ============================================================
 
 // --- Colors (inlined, same palette as the other extensions) ---
@@ -8,46 +8,109 @@ $fg: #d5c89a;
 $fg-50: rgba(213, 200, 154, 0.5);
 $accent: #89b4fa;
 $border: #474540;
-$bar-bg: #555555;
+$track: rgba(85, 85, 85, 0.45);
+$red: #e67e80;
+$green: #a7c080;
 $font-family: "JetBrainsMono Nerd Font";
 $border-radius: 5px;
+
+// The theme's global `* { font-size: 10px }` beats inheritance, so every
+// text rule below targets the label itself.
 
 .dk-card {
   background: $bg;
   border: 0.5px solid $border;
   border-radius: $border-radius;
-  padding: 14px 18px;
+  padding: 12px 16px;
   font-family: $font-family;
   color: $fg;
 }
 
-.dk-ring {
-  background: rgba(85, 85, 85, 0.45);
-  color: $accent;
-  min-width: 58px;
-  min-height: 58px;
-}
+// --- headers / rows ---
+.dk-head { margin-bottom: 4px; }
+.dk-head-icon { color: $accent; font-size: 13px; margin-right: 8px; }
+.dk-head-text { color: $fg; font-size: 11px; font-weight: 700; }
+.dk-head-extra, .dk-dim, .dk-age, .dk-k { color: $fg-50; font-size: 10px; }
+.dk-kv { margin: 1px 0; }
+.dk-v { color: $fg; font-size: 10px; }
+.dk-sub { color: $fg-50; font-size: 10px; margin-top: 2px; }
+.dk-warn { color: $red; font-size: 10px; }
+.dk-sep { min-height: 1px; background: rgba(71, 69, 64, 0.6); margin: 4px 0; }
 
+// --- rings ---
+.dk-ring { background: $track; color: $accent; }
 .dk-ring-icon { font-size: 16px; color: $fg; }
-.dk-stat-text { font-size: 11px; font-weight: 600; }
+.dk-stat-text { font-size: 11px; font-weight: 600; color: $fg; }
+.dk-rings { margin: 4px 0 8px 0; }
 
-.dk-viz {
-  font-size: 22px;
-  color: $accent;
-  letter-spacing: 1px;
-}
+.dk-bar progress, .dk-bar trough { min-height: 4px; border-radius: 2px; }
+.dk-bar trough { background: $track; }
+.dk-bar progress { background: $accent; }
+.dk-bar { margin-bottom: 4px; }
 
-.dk-title { font-size: 12px; font-weight: 600; }
-.dk-artist { font-size: 10px; color: $fg-50; }
+// --- clock ---
+.dk-clock { padding: 14px 18px; }
+.dk-time { font-size: 46px; font-weight: 800; color: $fg; }
+.dk-secs { font-size: 16px; color: $accent; margin: 0 0 9px 4px; }
+.dk-date { font-size: 13px; color: $fg; }
+.dk-weather-icon { font-size: 30px; color: $accent; }
+.dk-weather-temp { font-size: 20px; font-weight: 700; color: $fg; }
 
-.dk-media.standby {
-  .dk-viz { color: $fg-50; }
-  .dk-title { color: $fg-50; font-weight: 400; }
-}
+// --- focus timer ---
+.dk-pomo-clock { font-size: 12px; font-weight: 700; color: $fg; }
+.dk-focus.break .dk-pomo-ring { color: $green; }
+.dk-focus.running .dk-pomo-clock { color: $accent; }
 
-.dk-controls { margin-top: 2px; }
+// --- buttons ---
 .dk-btn { padding: 2px 6px; border-radius: $border-radius; }
-.dk-btn:hover { background: rgba(85, 85, 85, 0.45); }
+.dk-btn:hover { background: $track; }
 .dk-btn label { font-size: 16px; color: $fg; }
 .dk-btn:hover label { color: $accent; }
 .dk-btn-main label { font-size: 20px; color: $accent; }
+
+// --- ascii art ---
+.dk-art { font-family: $font-family; padding: 8px; }
+.dk-art-line { font-size: 14px; }
+.dk-prompt { margin: 12px 0 10px 0; }
+.dk-prompt label { font-size: 14px; }
+.dk-prompt-user, .dk-prompt .dk-prompt-user { color: $accent; font-weight: 700; }
+.dk-prompt-host, .dk-prompt .dk-prompt-host { color: $fg; font-weight: 700; }
+.dk-prompt .dk-dim { color: $fg-50; }
+.dk-prompt .dk-cursor { color: transparent; }
+.dk-prompt .dk-cursor.on { color: $accent; }
+.dk-quote { font-size: 12px; font-style: italic; color: $fg; }
+.dk-quote-by { font-size: 10px; color: $fg-50; }
+
+// --- repos ---
+.dk-row { padding: 3px 4px; border-radius: $border-radius; }
+.dk-row:hover { background: $track; }
+.dk-repo { font-size: 11px; font-weight: 700; color: $fg; }
+.dk-branch { font-size: 10px; color: $accent; }
+.dk-ahead, .dk-behind { font-size: 10px; color: $accent; }
+.dk-dirty { font-size: 10px; color: $red; }
+.dk-clean { font-size: 10px; color: $green; }
+
+// --- heatmap (levels 0-4, -1 = future day) ---
+.dk-heat { margin: 2px 0; }
+.dk-hm { border-radius: 3px; }
+.dk-hm.l-1 { background: transparent; }
+.dk-hm.l0 { background: rgba(85, 85, 85, 0.35); }
+.dk-hm.l1 { background: rgba(137, 180, 250, 0.30); }
+.dk-hm.l2 { background: rgba(137, 180, 250, 0.50); }
+.dk-hm.l3 { background: rgba(137, 180, 250, 0.75); }
+.dk-hm.l4 { background: $accent; }
+
+// --- ports / todo ---
+.dk-port { font-size: 10px; font-weight: 700; color: $accent; }
+.dk-todo:hover { border-color: $accent; }
+.dk-todo-item { font-size: 10px; color: $fg; }
+.dk-todo-item.done { color: $fg-50; text-decoration-line: line-through; }
+.dk-todo-check { font-size: 11px; color: $green; }
+
+// --- visualizer / now playing ---
+.dk-viz { font-size: 22px; color: $accent; letter-spacing: 1px; }
+.dk-title { font-size: 12px; font-weight: 600; color: $fg; }
+.dk-artist { font-size: 10px; color: $fg-50; }
+.dk-controls { margin-top: 2px; }
+.dk-media.standby .dk-viz { color: $fg-50; }
+.dk-media.standby .dk-title { color: $fg-50; font-weight: 400; }

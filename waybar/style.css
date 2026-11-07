@@ -208,49 +208,6 @@ window#waybar {
     padding-right: 10px;
 }
 
-#cpu,
-#memory,
-#temperature,
-#disk {
-    background: alpha(@bg, 0.92);
-    color: @fg;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding: 4px 8px;
-    border-radius: 0;
-}
-
-#cpu {
-    margin-left: 3px;
-    margin-right: 0;
-    padding-left: 16px;
-    border-radius: 5px 0 0 5px;
-}
-
-#memory,
-#temperature {
-    margin-left: 0;
-    margin-right: 0;
-}
-
-#temperature.critical {
-    color: #f38ba8;
-}
-
-#disk {
-    margin-left: 0;
-    margin-right: 3px;
-    padding-right: 16px;
-    border-radius: 0 5px 5px 0;
-}
-
-#cpu:hover,
-#memory:hover,
-#temperature:hover,
-#disk:hover {
-    background: alpha(@bg2, 0.96);
-}
-
 #battery {
     color: @fg;
 }

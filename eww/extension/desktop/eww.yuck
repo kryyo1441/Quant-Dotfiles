@@ -1,40 +1,179 @@
 ; ============================================================
-; Extension: Desktop — always-on widgets (sysmon + visualizer/now playing)
-; Layer "bottom": above the wallpaper, below windows.
+; Extension: Desktop — always-on widgets on the "bottom" layer
+; (above the wallpaper, below windows). Data: scripts/desk.py
+;   desktop-left   clock · system · focus timer
+;   desktop-art    night-sky ascii + quote
+;   desktop-right  repos · commit heatmap · ports · todo
+;   desktop-media  visualizer · now playing · controls
 ; ============================================================
+
+; --- Data ---------------------------------------------------------------
+(defpoll d_git    :interval "30s" :initial "[]" "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py git")
+(defpoll d_heat   :interval "10m" :initial '{"grid":[],"total":0,"streak":0}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py heat")
+(defpoll d_ports  :interval "5s"  :initial '{"ports":[],"docker":null}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py ports")
+(defpoll d_top    :interval "3s"  :initial "[]" "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py top")
+(defpoll d_net    :interval "2s"  :initial '{"iface":"-","down":"0B/s","up":"0B/s"}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py net")
+(defpoll d_gpu    :interval "10s" :initial "?" "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py gpu")
+(defpoll d_up     :interval "60s" :initial "" "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py uptime")
+(defpoll d_todo   :interval "5s"  :initial '{"exists":false,"items":[],"done":0,"more":0}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py todo")
+(defpoll d_weather :interval "15m" :initial '{"ok":false,"icon":"","desc":"","temp":"--","feels":"--","hi":"--","lo":"--","place":""}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py weather")
+(defpoll d_quote  :interval "30s"  :initial '{"q":"","a":""}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py quote")
+(defpoll d_pomo   :interval "1s"  :initial '{"phase":"work","clock":"25:00","pct":0,"running":false,"count":0}' "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py pomo")
+(deflisten d_art  :initial "[]" "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py art")
 
 (deflisten viz :initial "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁"
   "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/visualizer.sh")
-
 (deflisten media :initial '{"status":"","artist":"","title":"","player":""}'
   "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/media.sh")
 
-; --- Sysmon ---
+; --- Shared bits ----------------------------------------------------------
+(defwidget card-title [icon text ?extra]
+  (box :class "dk-head" :space-evenly false
+    (label :class "dk-head-icon" :text icon)
+    (label :class "dk-head-text" :text text)
+    (label :class "dk-head-extra" :hexpand true :halign "end" :text {extra ?: ""})))
+
+(defwidget kv [k v ?cls]
+  (box :class "dk-kv" :space-evenly false
+    (label :class "dk-k" :xalign 0 :text k)
+    (label :class "dk-v ${cls ?: ''}" :hexpand true :xalign 1 :text v)))
+
 (defwidget stat-ring [value icon text]
   (box :class "dk-stat" :orientation "v" :space-evenly false :spacing 6
     (circular-progress :class "dk-ring" :value value :thickness 5 :start-at 75 :width 58 :height 58
       (label :class "dk-ring-icon" :text icon))
     (label :class "dk-stat-text" :text text)))
 
-(defwidget sysmon []
-  (box :class "dk-card" :orientation "h" :spacing 18 :space-evenly true
-    (stat-ring :icon "󰻠" :value {EWW_CPU.avg}
-               :text "${round(EWW_CPU.avg, 0)}%")
-    (stat-ring :icon "󰍛" :value {EWW_RAM.used_mem_perc}
-               :text "${round(EWW_RAM.used_mem / 1073741824, 1)}G")
-    (stat-ring :icon "󰔏" :value {EWW_TEMPS.K10TEMP_TCTL ?: 0}
-               :text "${round(EWW_TEMPS.K10TEMP_TCTL ?: 0, 0)}°C")))
+; --- Left column ----------------------------------------------------------
+(defwidget clock-card []
+  (box :class "dk-card dk-clock" :orientation "v" :space-evenly false
+    (box :space-evenly false
+      (label :class "dk-time" :text {formattime(EWW_TIME, "%H:%M")})
+      (label :class "dk-secs" :valign "end" :text {formattime(EWW_TIME, ":%S")})
+      (box :class "dk-weather" :hexpand true :halign "end" :valign "center" :space-evenly false :spacing 8
+           :tooltip "${d_weather.desc} · humidity ${d_weather.hum ?: '--'}%"
+        (label :class "dk-weather-icon" :text {d_weather.icon})
+        (label :class "dk-weather-temp" :text "${d_weather.temp}°")))
+    (label :class "dk-date" :xalign 0 :text {formattime(EWW_TIME, "%A, %d %B")})
+    (label :class "dk-sub" :xalign 0
+           :text "week ${formattime(EWW_TIME, '%V')} · day ${formattime(EWW_TIME, '%j')} · up ${d_up}")
+    (label :class "dk-sub" :xalign 0 :limit-width 44
+           :text {d_weather.ok ? "${d_weather.desc} · feels ${d_weather.feels}° · ${d_weather.lo}–${d_weather.hi}° · ${d_weather.place}" : "weather unavailable (offline?)"})))
 
-(defwindow desktop-sysmon
+(defwidget sys-card []
+  (box :class "dk-card" :orientation "v" :space-evenly false :spacing 4
+    (card-title :icon "󰍛" :text "system" :extra "${EWW_BATTERY.BAT1.status == 'Charging' ? '󰂄' : '󰁹'} ${EWW_BATTERY.BAT1.capacity}%")
+    (box :class "dk-rings" :spacing 18 :space-evenly true
+      (stat-ring :icon "󰻠" :value {EWW_CPU.avg} :text "${round(EWW_CPU.avg, 0)}%")
+      (stat-ring :icon "󰍛" :value {EWW_RAM.used_mem_perc}
+                 :text "${round(EWW_RAM.used_mem / 1073741824, 1)}G")
+      (stat-ring :icon "󰔏" :value {EWW_TEMPS.K10TEMP_TCTL ?: 0}
+                 :text "${round(EWW_TEMPS.K10TEMP_TCTL ?: 0, 0)}°C"))
+    (kv :k "disk /" :v "${round(EWW_DISK['/'].used / 1073741824, 0)} / ${round(EWW_DISK['/'].total / 1073741824, 0)} G")
+    (box :class "dk-bar" (progress :value {EWW_DISK['/'].used_perc} :orientation "h"))
+    (kv :k "net ${d_net.iface}" :v "↓ ${d_net.down}  ↑ ${d_net.up}")
+    (kv :k "gpu" :v "igpu ${EWW_TEMPS.AMDGPU_EDGE ?: '?'}°C · rtx ${d_gpu == 'active' ? 'awake' : 'asleep'}"
+        :cls {d_gpu == "active" ? "dk-warn" : ""})
+    (box :class "dk-sep")
+    (box :orientation "v" :space-evenly false
+      (for p in d_top
+        (kv :k {p.name} :v "${p.cpu}%" :cls "dk-dim")))))
+
+(defwidget focus-card []
+  (box :class "dk-card dk-focus ${d_pomo.running ? 'running' : ''} ${d_pomo.phase}" :space-evenly false :spacing 14
+    (circular-progress :class "dk-ring dk-pomo-ring" :value {d_pomo.pct} :thickness 4 :start-at 75 :width 64 :height 64
+      (label :class "dk-pomo-clock" :text {d_pomo.clock}))
+    (box :orientation "v" :space-evenly false :valign "center" :spacing 6 :hexpand true
+      (label :class "dk-head-text" :xalign 0 :text {d_pomo.phase == "work" ? "󰔛  focus" : "󰅶  break"})
+      (label :class "dk-sub" :xalign 0 :text "${d_pomo.count} sessions today")
+      (box :space-evenly false :spacing 8
+        (button :class "dk-btn dk-btn-main" :onclick "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py pomo toggle"
+                {d_pomo.running ? "󰏤" : "󰐊"})
+        (button :class "dk-btn" :onclick "~/dotfiles/Quant-Dotfiles/eww/extension/desktop/scripts/desk.py pomo reset" "󰑓")))))
+
+(defwindow desktop-left
   :monitor 0
-  :geometry (geometry :x "24px" :y "60px" :width "300px" :height "1px" :anchor "top left")
-  :stacking "bottom"
-  :exclusive false
-  :focusable false
-  :namespace "desktop-sysmon"
-  (sysmon))
+  :geometry (geometry :x "24px" :y "56px" :width "330px" :height "1px" :anchor "top left")
+  :stacking "bottom" :exclusive false :focusable false :namespace "desktop-left"
+  (box :orientation "v" :space-evenly false :spacing 12
+    (clock-card) (sys-card) (focus-card)))
 
-; --- Visualizer + now playing ---
+; --- ASCII art -------------------------------------------------------------
+(defwindow desktop-art
+  :monitor 0
+  :geometry (geometry :x "400px" :y "110px" :width "460px" :height "1px" :anchor "top left")
+  :stacking "bottom" :exclusive false :focusable false :namespace "desktop-art"
+  (box :class "dk-art" :orientation "v" :space-evenly false
+    (box :orientation "v" :space-evenly false
+      (for line in d_art (label :class "dk-art-line" :xalign 0 :unindent false :markup line)))
+    (box :class "dk-prompt" :space-evenly false
+      (label :class "dk-prompt-user" :text "kryyo")
+      (label :class "dk-dim" :text "@")
+      (label :class "dk-prompt-host" :text "arch")
+      (label :class "dk-dim" :text " ~ ❯ ")
+      (label :class "dk-cursor ${formattime(EWW_TIME, '%S') % 2 == 0 ? 'on' : ''}" :text "█"))
+    (label :class "dk-quote" :xalign 0 :wrap true :text "“${d_quote.q}”")
+    (label :class "dk-quote-by" :xalign 0 :text "— ${d_quote.a}")))
+
+; --- Right column ---------------------------------------------------------
+(defwidget repo-row [r]
+  (button :class "dk-row" :onclick "code '${r.path}' >/dev/null 2>&1 &"
+    (box :space-evenly false :spacing 8
+      (label :class "dk-repo" :xalign 0 :limit-width 16 :text {r.name})
+      (label :class "dk-branch" :xalign 0 :limit-width 14 :text " ${r.branch}")
+      (box :hexpand true :halign "end" :space-evenly false :spacing 6
+        (label :class "dk-ahead" :visible {r.ahead > 0} :text "↑${r.ahead}")
+        (label :class "dk-behind" :visible {r.behind > 0} :text "↓${r.behind}")
+        (label :class {r.dirty > 0 ? "dk-dirty" : "dk-clean"} :text {r.dirty > 0 ? "●${r.dirty}" : "✓"})
+        (label :class "dk-age" :width 30 :xalign 1 :text {r.age})))))
+
+(defwidget git-card []
+  (box :class "dk-card" :orientation "v" :space-evenly false :spacing 2
+    (card-title :icon "" :text "repos" :extra "click → vscode")
+    (for r in d_git (repo-row :r r))))
+
+(defwidget heat-card []
+  (box :class "dk-card" :orientation "v" :space-evenly false :spacing 6
+    (card-title :icon "󰊢" :text "commits · 17 weeks" :extra "${d_heat.total} total")
+    (box :class "dk-heat" :space-evenly false :spacing 3 :halign "center"
+      (for week in {d_heat.grid}
+        (box :orientation "v" :space-evenly false :spacing 3
+          (for day in week
+            (box :class "dk-hm l${day.l}" :tooltip {day.tip} :width 14 :height 14)))))
+    (label :class "dk-sub" :xalign 0
+           :text {d_heat.streak > 0 ? "󰈸 ${d_heat.streak}-day streak" : "no commits today yet"})))
+
+(defwidget ports-card []
+  (box :class "dk-card" :orientation "v" :space-evenly false :spacing 2
+    (card-title :icon "󰒍" :text "listening"
+                :extra {d_ports.docker == "null" || d_ports.docker == "" ? "docker off" : "docker ${d_ports.docker} up"})
+    (for p in {d_ports.ports}
+      (box :class "dk-kv" :space-evenly false :spacing 8
+        (label :class "dk-port" :width 54 :xalign 0 :text ":${p.port}")
+        (label :class "dk-k" :xalign 0 :hexpand true :text {p.proc})
+        (label :class {p.scope == "open" ? "dk-warn" : "dk-dim"} :text {p.scope})))))
+
+(defwidget todo-card []
+  (button :class "dk-card dk-todo" :onclick "kitty -e nano ~/todo.md >/dev/null 2>&1 &"
+    (box :orientation "v" :space-evenly false :spacing 3
+      (card-title :icon "󰄵" :text "~/todo.md"
+                  :extra {d_todo.total > 0 ? "${d_todo.done}/${d_todo.total} done" : "click to edit"})
+      (label :class "dk-dim" :xalign 0 :visible {d_todo.total == 0} :text "no tasks")
+      (box :orientation "v" :space-evenly false :spacing 3
+        (for t in {d_todo.items}
+          (box :space-evenly false :spacing 6
+            (label :class "dk-todo-check" :visible {t.done} :text "󰄬")
+            (label :class "dk-todo-item ${t.done ? 'done' : ''}" :xalign 0 :limit-width 40 :text {t.t}))))
+      (label :class "dk-dim" :xalign 0 :visible {d_todo.more > 0} :text "+${d_todo.more} more"))))
+
+(defwindow desktop-right
+  :monitor 0
+  :geometry (geometry :x "24px" :y "56px" :width "360px" :height "1px" :anchor "top right")
+  :stacking "bottom" :exclusive false :focusable false :namespace "desktop-right"
+  (box :orientation "v" :space-evenly false :spacing 12
+    (git-card) (heat-card) (ports-card) (todo-card)))
+
+; --- Visualizer + now playing ------------------------------------------------
 (defwidget nowplaying []
   (box :class "dk-card dk-media ${media.status == 'Playing' ? 'playing' : 'standby'}"
        :orientation "v" :space-evenly false :spacing 6
@@ -54,8 +193,5 @@
 (defwindow desktop-media
   :monitor 0
   :geometry (geometry :x "0px" :y "40px" :width "420px" :height "1px" :anchor "bottom center")
-  :stacking "bottom"
-  :exclusive false
-  :focusable false
-  :namespace "desktop-media"
+  :stacking "bottom" :exclusive false :focusable false :namespace "desktop-media"
   (nowplaying))
