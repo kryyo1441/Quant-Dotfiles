@@ -1,0 +1,24 @@
+/* Quant: rice font + map Spotify's encore tokens to the palette in color.ini.
+   Do not redefine --font-family on :root: it blanks the main view (seen 2026-11-08). */
+body, button, input { font-family: "JetBrainsMono Nerd Font", sans-serif !important; }
+
+.encore-dark-theme, .encore-dark-theme .encore-base-set {
+    --text-base: var(--spice-text) !important;
+    --text-subdued: var(--spice-subtext) !important;
+    --text-bright-accent: var(--spice-button) !important;
+    --essential-base: var(--spice-text) !important;
+    --essential-subdued: var(--spice-misc) !important;
+    --background-base: var(--spice-main) !important;
+    --background-highlight: var(--spice-highlight) !important;
+    --background-press: var(--spice-card) !important;
+    --background-elevated-base: var(--spice-main-elevated) !important;
+    --background-elevated-highlight: var(--spice-highlight-elevated) !important;
+    --background-tinted-base: rgba(213, 200, 154, 0.07) !important;
+    --background-tinted-highlight: rgba(213, 200, 154, 0.12) !important;
+    --decorative-base: var(--spice-text) !important;
+}
+.encore-bright-accent-set {
+    --background-base: var(--spice-button) !important;
+    --background-highlight: var(--spice-button-active) !important;
+    --text-base: var(--spice-main) !important;
+}

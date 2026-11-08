@@ -14,7 +14,7 @@ hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu | cliphi
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("brave"))
 hl.bind(mainMod .. " + space", hl.dsp.exec_cmd("rofi -show drun -theme ~/dotfiles/Quant-Dotfiles/rofi/config.rasi"))
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("brave --profile-directory=Default --app-id=hnpfjngllnobngcgfapefoaidbinmjnm"))  -- WhatsApp Web PWA
-hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("kitty sh -c 'spotatui; exec bash'"))  -- shell stays after spotatui quits
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("spotify-launcher"))
 hl.bind(mainMod .. " + ALT + W", hl.dsp.exec_cmd("~/dotfiles/Quant-Dotfiles/rofi/scripts/wallpaper-select.sh"))
 
 -- PANEL CONTROL

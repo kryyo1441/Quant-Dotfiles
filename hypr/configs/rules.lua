@@ -26,7 +26,7 @@ hl.window_rule({
 hl.window_rule({ match = { class = "^(code|code-oss)$" }, opacity = "0.90", rounding = 5 })
 
 hl.window_rule({
-    match = { class = "^(Spotify)$" },
+    match = { class = "^([Ss]potify)$" },
     opacity = "0.80",
     rounding = 5,
     float = false,
