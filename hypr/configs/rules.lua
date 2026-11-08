@@ -23,7 +23,7 @@ hl.window_rule({
     center = true,
 })
 
-hl.window_rule({ match = { class = "^(code|code-oss)$" }, opacity = "0.90", rounding = 5 })
+hl.window_rule({ match = { class = "^(code|code-oss)$" }, opacity = "0.85", rounding = 5 })
 
 hl.window_rule({
     match = { class = "^([Ss]potify)$" },
