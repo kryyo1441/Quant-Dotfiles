@@ -23,11 +23,12 @@ hl.window_rule({
     center = true,
 })
 
-hl.window_rule({ match = { class = "^(code|code-oss)$" }, opacity = "0.85", rounding = 5 })
+hl.window_rule({ match = { class = "^(code|code-oss)$" }, opacity = "0.70", rounding = 5 })
+hl.window_rule({ match = { class = "^([Dd]iscord)$" }, opacity = "0.70", rounding = 5 })
 
 hl.window_rule({
     match = { class = "^([Ss]potify)$" },
-    opacity = "0.80",
+    opacity = "0.70",
     rounding = 5,
     float = false,
     center = true,
